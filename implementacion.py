@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from RandomForest import RandomForest
 from math import sqrt
 from sklearn.model_selection import KFold
+from matplotlib_venn import venn3
 
 
 class RandomForestApp:
@@ -60,6 +61,15 @@ class RandomForestApp:
         for i, (train_idx, test_idx) in enumerate(kf.split(X)):
             X_train, X_test = X[train_idx], X[test_idx]
             y_train, y_test = y[train_idx], y[test_idx]
+
+            # Crear un diagrama de Venn para mostrar la división de datos
+            plt.figure(figsize=(8, 6))
+            venn_diagram = venn3(subsets=(len(X_train), len(X_test), 0, 
+                                        len(X_train) - len(X_test), len(X_test), 0, 0),
+                                 set_labels=('Entrenamiento', 'Prueba', 'Validación'))
+            plt.title('División de Datos entre Conjuntos de Entrenamiento, Prueba y Validación')
+            plt.show()
+
             print("valores de entrenamiento.  Ejecucion: ", i + 1)
             print(X_train[:10])
             print("clases de los valores de entrenamiento.  Ejecucion: ", i + 1)
